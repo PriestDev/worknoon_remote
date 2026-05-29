@@ -14,6 +14,50 @@
     overflow: hidden;
 }
 
+/* Collapsed (hidden) state for the floating widget */
+#worknoon-chat-widget.collapsed {
+    transform: translateY(80%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 240ms ease, opacity 240ms ease;
+}
+
+/* Visible when toggled open */
+#worknoon-chat-widget.open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Toggle button (chat icon) */
+#worknoon-chat-toggle {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+    z-index: 10000;
+    cursor: pointer;
+}
+
+#worknoon-chat-toggle svg {
+    width: 24px;
+    height: 24px;
+    fill: white;
+}
+
+/* When widget is open, bring toggle slightly above and change style */
+#worknoon-chat-toggle.open {
+    transform: translateY(-8px);
+}
+
 #worknoon-chat-shortcode {
     border-radius: 8px;
     border: 1px solid #e5e7eb;
@@ -111,5 +155,9 @@
         bottom: 0;
         right: 0;
         border-radius: 0;
+    }
+    #worknoon-chat-toggle {
+        right: 18px;
+        bottom: 18px;
     }
 }

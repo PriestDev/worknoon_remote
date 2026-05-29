@@ -9,12 +9,36 @@ class Worknoon_Chat_Main {
         add_action('init', array($this, 'register_chat_session_type'));
 
         if (is_admin()) {
+            add_action('admin_init', array($this, 'maybe_redirect_on_activation'));
             add_action('add_meta_boxes', array($this, 'register_session_meta_boxes'));
         }
 
         if (class_exists('WooCommerce')) {
             add_action('woocommerce_new_order', array($this, 'handle_woocommerce_new_order'), 10, 1);
         }
+    }
+
+    public function maybe_redirect_on_activation() {
+        // Only redirect once, and only for users with manage_options
+        $flag = get_option('worknoon_chat_do_activation_redirect', false);
+        if (!$flag) {
+            return;
+        }
+
+        // remove the flag so we only redirect once
+        delete_option('worknoon_chat_do_activation_redirect');
+
+        if (!current_user_can('manage_options')) {
+            return;
+        }
+
+        // Avoid redirect during bulk plugin activation
+        if (isset($_GET['activate-multi'])) {
+            return;
+        }
+
+        wp_safe_redirect(admin_url('admin.php?page=worknoon-chat-onboarding'));
+        exit;
     }
 
     public function enqueue_frontend_assets() {

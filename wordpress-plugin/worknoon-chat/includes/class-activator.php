@@ -25,6 +25,24 @@ class Worknoon_Chat_Activator {
             }
         }
 
+        // Track activation timestamp and site
+        if (!get_option('worknoon_chat_activated_at')) {
+            add_option('worknoon_chat_activated_at', current_time('mysql'));
+        } else {
+            update_option('worknoon_chat_activated_at', current_time('mysql'));
+        }
+
+        if (!get_option('worknoon_chat_activated_site')) {
+            add_option('worknoon_chat_activated_site', site_url());
+        } else {
+            update_option('worknoon_chat_activated_site', site_url());
+        }
+        // Set a one-time redirect flag so admin can be sent to onboarding page
+        if (!get_option('worknoon_chat_do_activation_redirect')) {
+            add_option('worknoon_chat_do_activation_redirect', 1);
+        } else {
+            update_option('worknoon_chat_do_activation_redirect', 1);
+        }
         // Flush rewrite rules
         flush_rewrite_rules();
     }
